@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VetAgenda | Gestão Profissional</title>
+    <title>VetAgenda | Gestão de Atendimentos Pet</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,257 +16,431 @@
 
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#0F172A', accent: '#10B981', darkAccent: '#059669', complementary: '#94A3B8' }
-                }
+    theme: {
+        extend: {
+            colors: { 
+                primary: '#020617', // Slate quase preto para contraste
+                accent: '#00FF95',  // Verde Neon ultra vibrante
+                darkAccent: '#059669', 
+                complementary: '#CBD5E1' 
             }
         }
+    }
+}
     </script>
     <style>
         .app-page { min-height: 100vh; }
-        .hero-gradient { background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%); }
-        section { scroll-margin-top: 80px; }
+        .hero-gradient { background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.1), transparent); }
+        section { scroll-margin-top: 100px; }
+        .glass-card { background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); }
     </style>
 </head>
-<body class="bg-primary text-white font-sans">
+<body class="bg-primary text-white font-sans selection:bg-accent selection:text-primary">
 
     <div id="app-content">
-        <div id="page-home" class="app-page">
-            <nav class="bg-primary/95 backdrop-blur-md border-b border-accent/20 py-4 sticky top-0 z-50 px-6">
+        
+        <div id="page-home" class="app-page hero-gradient">
+            <nav class="fixed w-full z-50 bg-primary/90 backdrop-blur-md border-b border-white/5 px-6 py-4">
                 <div class="container mx-auto flex justify-between items-center">
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-paw text-accent text-3xl"></i>
-                        <span class="text-2xl font-bold">Vet<span class="text-accent">Agenda</span></span>
+                    <div class="flex items-center space-x-2 cursor-pointer" onclick="Router.go('home')">
+                        <i class="fas fa-paw text-accent text-2xl"></i>
+                        <span class="text-xl font-black tracking-tighter uppercase">VET<span class="text-accent">AGENDA</span></span>
                     </div>
-                    <button onclick="Router.go('login')" class="bg-slate-800 px-5 py-2 rounded-lg font-bold hover:bg-slate-700 transition">Login Admin</button>
+                    <div class="hidden md:flex items-center space-x-8 text-[10px] font-black uppercase tracking-widest">
+                        <a href="#recursos" class="hover:text-accent transition">Recursos</a>
+                        <a href="#como-funciona" class="hover:text-accent transition">Como Funciona</a>
+                        <a href="#planos" class="hover:text-accent transition">Planos</a>
+                        <a href="#contact-section" class="hover:text-accent transition">Agendar</a>
+                        <button onclick="Router.go('login')" class="border border-accent/30 text-accent px-5 py-2 rounded-xl hover:bg-accent hover:text-primary transition font-bold">
+                            Login Admin
+                        </button>
+                    </div>
                 </div>
             </nav>
 
-            <header class="hero-gradient py-20 px-6">
-                <div class="container mx-auto flex flex-col md:flex-row items-center">
-                    <div class="md:w-1/2 mb-10 text-center md:text-left">
-                        <h1 class="text-5xl font-extrabold mb-6 leading-tight">Cuidado inteligente para o seu <span class="text-accent">pet.</span></h1>
-                        <p class="text-xl text-complementary mb-8">Agende serviços e consultas em segundos.</p>
-                        <a href="#contact" class="bg-accent text-primary px-8 py-4 rounded-xl font-black uppercase tracking-wider hover:bg-darkAccent transition inline-block">Agendar agora</a>
+            <header class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+              <div class="absolute inset-0 z-0">
+                  <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=2000" 
+                       class="w-full h-full object-cover" alt="Background">
+                  <div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/40 to-transparent"></div>
+                  <div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/20"></div>
+              </div>
+          
+              <div class="container mx-auto px-6 relative z-10">
+                  <div class="max-w-3xl">
+                      <span class="bg-accent text-primary px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-8 inline-block shadow-[0_0_20px_rgba(0,255,149,0.4)]">
+                          Plataforma Nº 1 em Gestão Pet
+                      </span>
+                      <h1 class="text-6xl md:text-8xl font-black mb-8 leading-[0.85] tracking-tighter text-white drop-shadow-2xl">
+                          Onde o carinho encontra a <span class="text-accent">Tecnologia.</span>
+                      </h1>
+                      <p class="text-xl text-white mb-12 max-w-xl leading-relaxed font-bold drop-shadow-md">
+                          Agende, execute e acompanhe seus serviços pet com a maior precisão do mercado.
+                      </p>
+                      <div class="flex flex-col sm:flex-row gap-5">
+                          <a href="#contact-section" class="bg-accent text-primary px-12 py-6 rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-[0_10px_40px_rgba(0,255,149,0.3)] text-center">
+                              Experimente Grátis
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          </header>
+
+            <section id="recursos" class="py-32 px-6 bg-slate-900/30">
+                <div class="container mx-auto">
+                    <div class="text-center mb-20">
+                        <h2 class="text-3xl font-black uppercase tracking-tighter mb-4">Recursos Poderosos</h2>
+                        <p class="text-complementary max-w-xl mx-auto italic">Tudo que você precisa para gerenciar seus atendimentos com controle total.</p>
                     </div>
-                </div>
-            </header>
-
-            <section id="contact" class="py-24 px-6 bg-slate-900">
-                <div class="container mx-auto max-w-4xl">
-                    <div class="bg-primary p-10 rounded-[2.5rem] border border-accent/10 shadow-2xl">
-                        <h2 class="text-3xl font-bold mb-8 text-center text-accent">Novo Agendamento</h2>
-                        
-                        <form id="appointmentForm" class="space-y-6 text-left">
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-xs font-bold uppercase text-complementary mb-2">Seu Nome (Tutor)</label>
-                                    <input type="text" id="nome" placeholder="Seu nome completo" required class="w-full bg-slate-800 border border-white/10 p-4 rounded-xl focus:border-accent outline-none text-white">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold uppercase text-complementary mb-2">WhatsApp</label>
-                                    <input type="tel" id="whatsapp" placeholder="(11) 99999-9999" required class="w-full bg-slate-800 border border-white/10 p-4 rounded-xl focus:border-accent outline-none text-white">
-                                </div>
-                            </div>
-
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-xs font-bold uppercase text-complementary mb-2">Nome do Pet</label>
-                                    <input type="text" id="nomePet" placeholder="Nome do animal" required class="w-full bg-slate-800 border border-white/10 p-4 rounded-xl focus:border-accent outline-none text-white">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold uppercase text-complementary mb-2">Serviço Desejado</label>
-                                    <select id="select-servicos" required class="w-full bg-slate-800 border border-white/10 p-4 rounded-xl focus:border-accent outline-none text-white">
-                                        <option value="">Carregando serviços...</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-bold uppercase text-complementary mb-2">Data e Hora</label>
-                                <input type="text" id="data_agendamento" placeholder="Escolha o melhor horário" required class="w-full bg-slate-800 border border-white/10 p-4 rounded-xl focus:border-accent outline-none text-white">
-                            </div>
-
-                            <button type="submit" id="btnSubmit" class="w-full bg-accent text-primary font-black py-5 rounded-xl text-lg hover:scale-[1.02] transition uppercase tracking-widest">Confirmar Agendamento</button>
-                        </form>
+                    <div class="grid md:grid-cols-3 gap-10">
+                        <div onclick="Router.go('estetica')" class="glass-card p-10 rounded-[2.5rem] hover:border-accent/40 transition group cursor-pointer">
+                            <i class="fas fa-cut text-accent text-3xl mb-6 block"></i>
+                            <h3 class="text-xl font-bold mb-4">Estética Premium</h3>
+                            <p class="text-sm text-complementary leading-relaxed mb-6">Banho, tosa e tratamentos estéticos com agendamento simplificado.</p>
+                            <span class="text-accent font-bold text-xs uppercase tracking-widest group-hover:underline">Ver Detalhes</span>
+                        </div>
+                        <div onclick="Router.go('clinica')" class="glass-card p-10 rounded-[2.5rem] hover:border-blue-500/40 transition group cursor-pointer">
+                            <i class="fas fa-stethoscope text-blue-500 text-3xl mb-6 block"></i>
+                            <h3 class="text-xl font-bold mb-4">Clínica Geral</h3>
+                            <p class="text-sm text-complementary leading-relaxed mb-6">Consultas e exames com histórico digital completo do paciente.</p>
+                            <span class="text-blue-500 font-bold text-xs uppercase tracking-widest group-hover:underline">Ver Detalhes</span>
+                        </div>
+                        <div onclick="Router.go('prevencao')" class="glass-card p-10 rounded-[2.5rem] hover:border-purple-500/40 transition group cursor-pointer">
+                            <i class="fas fa-shield-dog text-purple-500 text-3xl mb-6 block"></i>
+                            <h3 class="text-xl font-bold mb-4">Prevenção</h3>
+                            <p class="text-sm text-complementary leading-relaxed mb-6">Controle de vacinas e vermifugação com alertas inteligentes.</p>
+                            <span class="text-purple-500 font-bold text-xs uppercase tracking-widest group-hover:underline">Ver Detalhes</span>
+                        </div>
                     </div>
                 </div>
             </section>
+
+            <section id="como-funciona" class="py-32 px-6 bg-primary relative overflow-hidden">
+              <div class="absolute top-0 right-0 w-96 h-96 bg-accent/10 blur-[120px] rounded-full"></div>
+          
+              <div class="container mx-auto max-w-5xl relative z-10">
+                  <h2 class="text-4xl font-black text-center mb-20 uppercase tracking-tighter text-white italic">
+                      Como <span class="text-accent underline decoration-4 underline-offset-8">Funciona</span>
+                  </h2>
+                  
+                  <div class="grid md:grid-cols-4 gap-12 text-center">
+                      <div onclick="document.getElementById('nome').focus(); window.location.hash = 'contact-section';" 
+                           class="group cursor-pointer">
+                          <div class="w-20 h-20 bg-primary border-4 border-accent text-accent rounded-[2rem] flex items-center justify-center text-2xl font-black mx-auto mb-8 shadow-[0_0_30px_rgba(0,255,149,0.2)] group-hover:bg-accent group-hover:text-primary transition-all duration-500 transform group-hover:-rotate-12">
+                              1
+                          </div>
+                          <h4 class="text-xl font-black mb-3 text-white uppercase tracking-tighter">Cadastre</h4>
+                          <p class="text-sm text-complementary font-medium">Seus serviços e dados dos pets.</p>
+                          <div class="mt-4 h-1 w-0 bg-accent mx-auto group-hover:w-full transition-all duration-500"></div>
+                      </div>
+          
+                      <div onclick="document.getElementById('data_agendamento').focus(); window.location.hash = 'contact-section';" 
+                           class="group cursor-pointer">
+                          <div class="w-20 h-20 bg-primary border-4 border-accent text-accent rounded-[2rem] flex items-center justify-center text-2xl font-black mx-auto mb-8 shadow-[0_0_30px_rgba(0,255,149,0.2)] group-hover:bg-accent group-hover:text-primary transition-all duration-500 transform group-hover:rotate-12">
+                              2
+                          </div>
+                          <h4 class="text-xl font-black mb-3 text-white uppercase tracking-tighter">Agende</h4>
+                          <p class="text-sm text-complementary font-medium">Programe horários em segundos.</p>
+                          <div class="mt-4 h-1 w-0 bg-accent mx-auto group-hover:w-full transition-all duration-500"></div>
+                      </div>
+          
+                      <div onclick="Router.go('login')" 
+                           class="group cursor-pointer">
+                          <div class="w-20 h-20 bg-primary border-4 border-accent text-accent rounded-[2rem] flex items-center justify-center text-2xl font-black mx-auto mb-8 shadow-[0_0_30px_rgba(0,255,149,0.2)] group-hover:bg-accent group-hover:text-primary transition-all duration-500 transform group-hover:-rotate-12">
+                              3
+                          </div>
+                          <h4 class="text-xl font-black mb-3 text-white uppercase tracking-tighter">Execute</h4>
+                          <p class="text-sm text-complementary font-medium">Realize o atendimento com foco.</p>
+                          <div class="mt-4 h-1 w-0 bg-accent mx-auto group-hover:w-full transition-all duration-500"></div>
+                      </div>
+          
+                      <div onclick="Router.go('login')" 
+                           class="group cursor-pointer">
+                          <div class="w-20 h-20 bg-primary border-4 border-accent text-accent rounded-[2rem] flex items-center justify-center text-2xl font-black mx-auto mb-8 shadow-[0_0_30px_rgba(0,255,149,0.2)] group-hover:bg-accent group-hover:text-primary transition-all duration-500 transform group-hover:rotate-12">
+                              4
+                          </div>
+                          <h4 class="text-xl font-black mb-3 text-white uppercase tracking-tighter">Acompanhe</h4>
+                          <p class="text-sm text-complementary font-medium">Histórico digital em tempo real.</p>
+                          <div class="mt-4 h-1 w-0 bg-accent mx-auto group-hover:w-full transition-all duration-500"></div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+
+          <section id="planos" class="py-32 bg-primary relative overflow-hidden">
+            <div class="absolute top-10 right-10 opacity-10 animate-pulse pointer-events-none">
+                <i class="fas fa-paw text-[150px] text-accent rotate-12"></i>
+            </div>
+            <div class="absolute bottom-10 left-10 opacity-10 animate-pulse pointer-events-none">
+                <i class="fas fa-bone text-[120px] text-accent -rotate-12"></i>
+            </div>
+        
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-20">
+                    <span class="text-accent font-black uppercase tracking-[0.4em] text-[10px] bg-accent/10 px-4 py-1 rounded-full border border-accent/20">
+                        Investimento Inteligente
+                    </span>
+                    <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white mt-6 italic">
+                        Planos para sua <span class="text-accent drop-shadow-[0_0_15px_rgba(0,255,149,0.5)]">Gestão Pet</span>
+                    </h2>
+                    <p class="text-complementary mt-4 font-medium italic">Sem fidelidade. Cancele ou altere seu plano a qualquer momento.</p>
+                </div>
+        
+                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+                    
+                    <div class="bg-slate-900/60 backdrop-blur-md border border-white/10 p-10 rounded-[3rem] flex flex-col hover:border-accent/40 transition-all duration-500 group relative">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-xl font-black text-white uppercase tracking-tighter">Plano Solo</h3>
+                            <i class="fas fa-cat text-2xl text-accent/30 group-hover:text-accent transition-colors"></i>
+                        </div>
+                        <div class="flex items-baseline gap-1 mb-8 text-white">
+                            <span class="text-4xl font-black text-white">R$ 79,90</span>
+                            <span class="text-sm text-complementary">/mês</span>
+                        </div>
+                        <ul class="space-y-5 mb-12 flex-grow">
+                            <li class="flex items-center text-sm text-complementary">
+                                <i class="fas fa-paw text-accent mr-3"></i> 100 Agendamentos/mês
+                            </li>
+                            <li class="flex items-center text-sm text-complementary">
+                                <i class="fas fa-laptop-medical text-accent mr-3"></i> Acesso Web Completo
+                            </li>
+                        </ul>
+                        <button onclick="preencherPlano('Solo')" 
+                            class="w-full py-5 border-2 border-accent/20 text-accent font-black rounded-2xl hover:bg-accent hover:text-primary transition-all uppercase text-[10px] tracking-widest shadow-lg active:scale-95">
+                            Escolher Solo
+                        </button>
+                    </div>
+        
+                    <div class="relative p-12 rounded-[3.5rem] bg-accent text-primary transform scale-105 shadow-[0_0_60px_rgba(0,255,149,0.4)] flex flex-col border-4 border-white/30">
+                        <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-white text-primary text-[10px] px-8 py-2 rounded-full font-black uppercase tracking-[0.3em] shadow-2xl flex items-center gap-2">
+                            <i class="fas fa-trophy text-[10px]"></i> Mais Escolhido
+                        </div>
+                        
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-2xl font-black uppercase italic tracking-tighter">Essencial</h3>
+                            <i class="fas fa-dog text-3xl"></i>
+                        </div>
+                        
+                        <div class="flex items-baseline gap-1 mb-8">
+                            <span class="text-5xl font-black">R$ 129,90</span>
+                            <span class="text-sm font-bold opacity-80">/mês</span>
+                        </div>
+                        <ul class="space-y-5 mb-12 flex-grow">
+                            <li class="flex items-center text-sm font-black">
+                                <i class="fas fa-check-double mr-3"></i> 500 Agendamentos/mês
+                            </li>
+                            <li class="flex items-center text-sm font-black">
+                                <i class="fas fa-users mr-3"></i> Até 4 Colaboradores
+                            </li>
+                            <li class="flex items-center text-sm font-black">
+                                <i class="fas fa-bell mr-3"></i> Lembretes Automáticos
+                            </li>
+                        </ul>
+                        <button onclick="preencherPlano('Essencial')" 
+                            class="w-full py-6 bg-primary text-white font-black rounded-2xl shadow-2xl hover:scale-[1.02] active:scale-95 transition-all uppercase text-xs tracking-widest">
+                            Assinar Agora
+                        </button>
+                    </div>
+        
+                    <div class="bg-slate-900/60 backdrop-blur-md border border-white/10 p-10 rounded-[3rem] flex flex-col hover:border-accent/40 transition-all duration-500 group relative">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-xl font-black text-white uppercase tracking-tighter">Professional</h3>
+                            <i class="fas fa-shield-dog text-2xl text-accent/30 group-hover:text-accent transition-colors"></i>
+                        </div>
+                        <div class="flex items-baseline gap-1 mb-8 text-white">
+                            <span class="text-4xl font-black text-white">R$ 179,90</span>
+                            <span class="text-sm text-complementary">/mês</span>
+                        </div>
+                        <ul class="space-y-5 mb-12 flex-grow">
+                            <li class="flex items-center text-sm text-complementary">
+                                <i class="fas fa-infinity text-accent mr-3"></i> Agendamentos Ilimitados
+                            </li>
+                            <li class="flex items-center text-sm text-complementary">
+                                <i class="fas fa-notes-medical text-accent mr-3"></i> Anexo de fotos/laudos
+                            </li>
+                            <li class="flex items-center text-sm text-complementary">
+                                <i class="fas fa-stethoscope text-accent mr-3"></i> Suporte Prioritário
+                            </li>
+                        </ul>
+                        <button onclick="preencherPlano('Professional')" 
+                            class="w-full py-5 border-2 border-accent/20 text-accent font-black rounded-2xl hover:bg-accent hover:text-primary transition-all uppercase text-[10px] tracking-widest shadow-lg active:scale-95">
+                            Escolher Pro
+                        </button>
+                    </div>
+        
+                </div>
+            </div>
+        </section>
+
+        <section id="contact-section" class="py-32 px-6 pb-48">
+          <div class="container mx-auto max-w-4xl glass-card rounded-[3.5rem] p-16 shadow-3xl border border-accent/20">
+              <h2 class="text-3xl font-black text-center mb-12 uppercase tracking-tighter text-white">
+                  Novo <span class="text-accent">Agendamento</span>
+              </h2>
+              
+              <form id="appointmentForm" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                      <label class="block text-[10px] font-black uppercase text-accent mb-3 tracking-widest">Seu Nome</label>
+                      <input type="text" id="nome" required placeholder="Digite seu nome" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl focus:border-accent outline-none text-white transition">
+                  </div>
+                  <div>
+                      <label class="block text-[10px] font-black uppercase text-accent mb-3 tracking-widest">WhatsApp</label>
+                      <input type="tel" id="whatsapp" required placeholder="(00) 00000-0000" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl focus:border-accent outline-none text-white transition">
+                  </div>
+                  <div>
+                      <label class="block text-[10px] font-black uppercase text-accent mb-3 tracking-widest">Nome do Pet</label>
+                      <input type="text" id="nomePet" required placeholder="Nome do seu pet" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl focus:border-accent outline-none text-white transition">
+                  </div>
+                  <div>
+                      <label class="block text-[10px] font-black uppercase text-accent mb-3 tracking-widest">Serviço Desejado</label>
+                      <select id="select-servicos" required class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl focus:border-accent outline-none text-white transition appearance-none cursor-pointer">
+                          <option value="">Selecione um serviço</option>
+                          <option value="Aplicação de Medicamento - R$ 45.00">Aplicação de Medicamento - R$ 45.00</option>
+                          <option value="Banho e Tosa (Porte M/G) - R$ 130.00">Banho e Tosa (Porte M/G) - R$ 130.00</option>
+                          <option value="Banho e Tosa (Porte P) - R$ 85.00">Banho e Tosa (Porte P) - R$ 85.00</option>
+                          <option value="Castração (Avaliação) - R$ 0.00">Castração (Avaliação) - R$ 0.00</option>
+                          <option value="Consulta Clínica Geral - R$ 150.00">Consulta Clínica Geral - R$ 150.00</option>
+                          <option value="Corte de Unhas e Limpeza Auricular - R$ 40.00">Corte de Unhas e Limpeza Auricular - R$ 40.00</option>
+                          <option value="Vacina V10 + Antirrábica - R$ 120.00">Vacina V10 + Antirrábica - R$ 120.00</option>
+                          </select>
+                  </div>
+                  <div class="md:col-span-2">
+                      <label class="block text-[10px] font-black uppercase text-accent mb-3 tracking-widest">Data e Horário</label>
+                      <input type="text" id="data_agendamento" required class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl focus:border-accent outline-none text-white transition">
+                  </div>
+                  <button type="submit" id="btnSubmit" class="md:col-span-2 bg-accent text-primary font-black py-6 rounded-2xl text-lg hover:brightness-110 hover:scale-[1.01] transition-all uppercase tracking-widest shadow-2xl">
+                      Confirmar Agendamento
+                  </button>
+              </form>
+          </div>
+      </section>
         </div>
 
         <div id="page-login" class="app-page hidden flex items-center justify-center bg-slate-950 px-6">
-            <div class="bg-primary p-10 rounded-3xl border border-accent/20 w-full max-w-md shadow-2xl text-center">
-                <h2 class="text-2xl font-bold mb-6">Acesso Administrativo</h2>
-                <form id="loginForm" class="space-y-4">
-                    <input type="password" id="adminPass" placeholder="Senha" class="w-full bg-slate-800 border border-white/10 p-4 rounded-xl text-center outline-none">
-                    <button class="w-full bg-accent text-primary font-bold py-4 rounded-xl">Entrar</button>
+            <div class="bg-primary p-12 rounded-[3rem] border border-white/10 w-full max-w-md text-center shadow-3xl">
+                <h2 class="text-3xl font-black mb-8 uppercase tracking-tighter italic text-accent">Admin Login</h2>
+                <form id="loginForm" class="space-y-6">
+                    <input type="password" id="adminPass" placeholder="Senha" class="w-full bg-slate-900 border border-white/5 p-5 rounded-2xl text-center outline-none focus:border-accent">
+                    <button class="w-full bg-accent text-primary font-black py-5 rounded-2xl uppercase tracking-widest">Entrar</button>
                 </form>
-                <button onclick="Router.go('home')" class="mt-4 text-complementary underline">Voltar</button>
+                <button onclick="Router.go('home')" class="mt-8 text-complementary text-xs uppercase underline">Voltar</button>
             </div>
         </div>
 
         <div id="page-dashboard" class="app-page hidden bg-slate-950">
-            <nav class="bg-primary border-b border-accent/10 p-5 flex justify-between items-center">
-                <span class="font-bold text-accent">DASHBOARD PROFISSIONAL</span>
-                <button onclick="Router.go('home')" class="text-red-500 font-bold">Sair</button>
+            <nav class="bg-primary border-b border-white/5 p-6 flex justify-between items-center sticky top-0 z-50">
+                <span class="font-black text-accent italic tracking-widest uppercase text-xs"><i class="fas fa-chart-line mr-2"></i>Dashboard</span>
+                <button onclick="Router.go('home')" class="text-red-500 font-black text-xs uppercase tracking-widest hover:bg-red-500/10 px-4 py-2 rounded-xl transition">Encerrar Sessão</button>
             </nav>
-            <main class="p-6">
-                <div class="bg-primary rounded-xl overflow-hidden border border-white/5">
-                    <table class="w-full text-left">
-                        <thead class="bg-slate-800 text-complementary uppercase text-xs">
-                            <tr>
-                                <th class="p-4">Data/Hora</th>
-                                <th class="p-4">Pet (Tutor)</th>
-                                <th class="p-4">Serviço</th>
-                                <th class="p-4">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-body">
-                            </tbody>
-                    </table>
+            <main class="p-8">
+                <div class="bg-primary rounded-[2rem] border border-white/5 overflow-hidden shadow-2xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-900 text-accent uppercase text-[10px] font-black tracking-widest">
+                                <tr>
+                                    <th class="p-6">Data/Hora</th>
+                                    <th class="p-6">Pet (Tutor)</th>
+                                    <th class="p-6">Serviço</th>
+                                    <th class="p-6">Status</th>
+                                    <th class="p-6 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body" class="divide-y divide-white/5"></tbody>
+                        </table>
+                    </div>
                 </div>
             </main>
         </div>
+
+        <div id="page-history" class="app-page hidden bg-slate-950 p-8">
+            <div class="max-w-4xl mx-auto">
+                <button onclick="Router.go('dashboard')" class="text-accent mb-10 flex items-center font-black uppercase text-xs tracking-widest">
+                    <i class="fas fa-chevron-left mr-2"></i> Voltar ao Dashboard
+                </button>
+                <div class="bg-primary p-12 rounded-[3.5rem] border border-white/5 shadow-3xl">
+                    <h2 class="text-4xl font-black mb-10 uppercase tracking-tighter italic"><i class="fas fa-history text-accent mr-3"></i>Histórico do Pet</h2>
+                    <div id="history-content" class="space-y-6"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-estetica" class="app-page hidden bg-slate-950 p-8">
+            <div class="max-w-4xl mx-auto">
+                <button onclick="Router.go('home')" class="text-accent mb-8 flex items-center font-bold tracking-widest text-xs uppercase"><i class="fas fa-arrow-left mr-2"></i> Voltar</button>
+                <div class="bg-primary rounded-[3rem] overflow-hidden border border-white/5">
+                    <img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?q=80&w=2000" class="w-full h-72 object-cover">
+                    <div class="p-12">
+                        <h2 class="text-4xl font-black mb-6 uppercase tracking-tighter text-accent italic">Estética Premium</h2>
+                        <p class="text-complementary mb-10 leading-relaxed">Produtos hipoalergênicos e toalhas individuais para a máxima higiene do seu pet.</p>
+                        <a href="#contact-section" onclick="Router.go('home')" class="bg-accent text-primary px-10 py-5 rounded-2xl font-black uppercase tracking-widest">Agendar Banho Agora</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-clinica" class="app-page hidden bg-slate-950 p-8">
+            <div class="max-w-4xl mx-auto">
+                <button onclick="Router.go('home')" class="text-accent mb-8 flex items-center font-bold tracking-widest text-xs uppercase"><i class="fas fa-arrow-left mr-2"></i> Voltar</button>
+                <div class="bg-primary rounded-[3rem] overflow-hidden border border-white/5">
+                    <img src="https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?q=80&w=2000" class="w-full h-72 object-cover">
+                    <div class="p-12">
+                        <h2 class="text-4xl font-black mb-6 uppercase tracking-tighter text-blue-500 italic">Clínica Geral</h2>
+                        <p class="text-complementary mb-10 leading-relaxed">Check-ups completos e diagnóstico especializado para cães e gatos.</p>
+                        <a href="#contact-section" onclick="Router.go('home')" class="bg-blue-500 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest">Marcar Consulta</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-prevencao" class="app-page hidden bg-slate-950 p-8">
+            <div class="max-w-4xl mx-auto">
+                <button onclick="Router.go('home')" class="text-accent mb-8 flex items-center font-bold tracking-widest text-xs uppercase"><i class="fas fa-arrow-left mr-2"></i> Voltar</button>
+                <div class="bg-primary rounded-[3rem] overflow-hidden border border-white/5">
+                    <img src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?q=80&w=2000" class="w-full h-72 object-cover">
+                    <div class="p-12">
+                        <h2 class="text-4xl font-black mb-6 uppercase tracking-tighter text-purple-500 italic">Prevenção Total</h2>
+                        <p class="text-complementary mb-10 leading-relaxed">Mantenha as vacinas em dia e proteja quem você ama contra as principais doenças.</p>
+                        <a href="#contact-section" onclick="Router.go('home')" class="bg-purple-500 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest">Ver Protocolo Vacinal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
+    <script src="js/config.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/history.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/services.js"></script>
+
     <script>
-      // 1. CONFIGURAÇÃO SUPABASE
-      const SB_URL = 'https://mywfygexyneumbctwhqu.supabase.co';
-      const SB_KEY = 'sb_publishable_87elvO9hISERj5i1zq9uLQ_-A7NqLZP';
-  
-      // Usamos supabaseClient consistentemente em todo o código
-      const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
-  
-      // 2. ROTEADOR
-      const Router = {
-          go(pageId) {
-              document.querySelectorAll('.app-page').forEach(p => p.classList.add('hidden'));
-              document.getElementById(`page-${pageId}`).classList.remove('hidden');
-              if(pageId === 'dashboard') Dashboard.load();
-          }
-      };
-  
-      // 3. CARREGAR SERVIÇOS DO BANCO
-      async function carregarServicos() {
-          const select = document.getElementById('select-servicos');
-          try {
-              const { data, error } = await supabaseClient.from('servicos').select('*').order('nome_servico');
-              
-              if (error) throw error;
-  
-              if (!data || data.length === 0) {
-                  select.innerHTML = '<option value="">Nenhum serviço encontrado</option>';
-                  return;
-              }
-  
-              select.innerHTML = '<option value="">Selecione um serviço</option>';
-              data.forEach(s => {
-                  select.innerHTML += `<option value="${s.id}">${s.nome_servico} - R$ ${s.preco.toFixed(2)}</option>`;
-              });
-          } catch (e) { 
-              console.error("Erro ao carregar serviços:", e);
-              select.innerHTML = '<option value="">Erro ao carregar</option>';
-          }
-      }
-  
-      // 4. LÓGICA DE AGENDAMENTO (TRANSAÇÃO TUTOR -> PET -> AGENDAMENTO)
-      document.getElementById('appointmentForm').onsubmit = async (e) => {
-          e.preventDefault();
-          const btn = document.getElementById('btnSubmit');
-          btn.disabled = true;
-          btn.innerText = "PROCESSANDO...";
-  
-          const nomeTutor = document.getElementById('nome').value;
-          const whatsapp = document.getElementById('whatsapp').value;
-          const nomePet = document.getElementById('nomePet').value;
-          const servicoId = document.getElementById('select-servicos').value;
-          const dataHora = document.getElementById('data_agendamento').value;
-  
-          try {
-              // Passo 1: Upsert Tutor (Corrigido para supabaseClient)
-              let { data: tutor } = await supabaseClient.from('tutores').select('id').eq('whatsapp', whatsapp).maybeSingle();
-              if (!tutor) {
-                  const { data: nT, error: eT } = await supabaseClient.from('tutores').insert([{ nome: nomeTutor, whatsapp }]).select().single();
-                  if (eT) throw eT;
-                  tutor = nT;
-              }
-  
-              // Passo 2: Upsert Pet (Corrigido para supabaseClient)
-              let { data: pet } = await supabaseClient.from('pets').select('id').eq('tutor_id', tutor.id).eq('nome_pet', nomePet).maybeSingle();
-              if (!pet) {
-                  const { data: nP, error: eP } = await supabaseClient.from('pets').insert([{ tutor_id: tutor.id, nome_pet: nomePet }]).select().single();
-                  if (eP) throw eP;
-                  pet = nP;
-              }
-  
-              // Passo 3: Criar Agendamento (Corrigido para supabaseClient)
-              const { error: eA } = await supabaseClient.from('agendamentos_pro').insert([{
-                  pet_id: pet.id,
-                  servico_id: servicoId,
-                  data_hora: dataHora,
-                  status: 'Pendente'
-              }]);
-              if (eA) throw eA;
-  
-              alert("Agendamento realizado com sucesso!");
-              location.reload();
-  
-          } catch (err) {
-              alert("Erro: " + err.message);
-              btn.disabled = false;
-              btn.innerText = "Confirmar Agendamento";
-          }
-      };
-  
-      // 5. DASHBOARD ADMIN (QUERY COM JOIN)
-      const Dashboard = {
-          async load() {
-              const tbody = document.getElementById('table-body');
-              tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center">Carregando...</td></tr>';
-  
-              // Corrigido para supabaseClient
-              const { data, error } = await supabaseClient
-                  .from('agendamentos_pro')
-                  .select(`
-                      data_hora, 
-                      status, 
-                      pets (nome_pet, tutores (nome, whatsapp)), 
-                      servicos (nome_servico)
-                  `)
-                  .order('data_hora');
-  
-              if (error) return console.error(error);
-  
-              tbody.innerHTML = data.map(row => `
-                  <tr class="border-b border-white/5">
-                      <td class="p-4 text-accent">${new Date(row.data_hora).toLocaleString()}</td>
-                      <td class="p-4"><b>${row.pets.nome_pet}</b><br><span class="text-xs text-complementary">${row.pets.tutores.nome}</span></td>
-                      <td class="p-4">${row.servicos ? row.servicos.nome_servico : 'Serviço removido'}</td>
-                      <td class="p-4"><span class="bg-yellow-500/20 text-yellow-500 p-1 px-2 rounded text-xs">${row.status}</span></td>
-                  </tr>
-              `).join('') || '<tr><td colspan="4" class="p-4 text-center">Nenhum agendamento encontrado.</td></tr>';
-          }
-      };
-  
-      // 6. LOGIN
-      document.getElementById('loginForm').onsubmit = (e) => {
-          e.preventDefault();
-          if(document.getElementById('adminPass').value === 'sivaldo2025') Router.go('dashboard');
-          else alert("Senha incorreta");
-      };
-  
-      // 7. INICIALIZAÇÃO
-      document.addEventListener('DOMContentLoaded', () => {
-          carregarServicos();
-          flatpickr("#data_agendamento", { 
-              enableTime: true, 
-              dateFormat: "Y-m-d H:i", 
-              minDate: "today", 
-              locale: "pt",
-              time_24hr: true 
-          });
-      });
-  </script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Chama sua função original de carregar serviços do Supabase
+            if (typeof carregarServicos === 'function') carregarServicos();
+
+            // Configuração do calendário
+            flatpickr("#data_agendamento", { 
+                enableTime: true, 
+                dateFormat: "Y-m-d H:i", 
+                minDate: "today", 
+                locale: "pt",
+                time_24hr: true 
+            });
+
+            // Lógica de Login
+            const loginForm = document.getElementById('loginForm');
+            if(loginForm) {
+                loginForm.onsubmit = (e) => {
+                    e.preventDefault();
+                    if(document.getElementById('adminPass').value === 'sivaldo2025') {
+                        Router.go('dashboard');
+                    } else {
+                        alert("Senha incorreta");
+                    }
+                };
+            }
+        });
+    </script>
 </body>
 </html>
