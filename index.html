@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetAgenda | Gestão Profissional</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#0F172A', accent: '#10B981', darkAccent: '#059669', complementary: '#94A3B8' }
+                }
+            }
+        }
+    </script>
+    <style>
+        .app-page { min-height: 100vh; }
+        .hero-gradient { background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%); }
+        section { scroll-margin-top: 80px; }
+    </style>
+</head>
+<body class="bg-primary text-white font-sans">
+
+    <div id="app-content">
+        <div id="page-home" class="app-page">
+            <nav class="bg-primary/95 backdrop-blur-md border-b border-accent/20 py-4 sticky top-0 z-50 px-6">
+                <div class="container mx-auto flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-paw text-accent text-3xl"></i>
+                        <span class="text-2xl font-bold">Vet<span class="text-accent">Agenda</span></span>
+                    </div>
+                    <button onclick="Router.go('login')" class="bg-slate-800 px-5 py-2 rounded-lg font-bold hover:bg-slate-700 transition">Login Admin</button>
+                </div>
+            </nav>
+
+            <header class="hero-gradient py-20 px-6">
+                <div class="container mx-auto flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-10 text-center md:text-left">
+                        <h1 class="text-5xl font-extrabold mb-6 leading-tight">Cuidado inteligente para o seu <span class="text-accent">pet.</span></h1>
+                        <p class="text-xl text-complementary mb-8">Agende serviços e consultas em segundos.</p>
+                        <a href="#contact" class="bg-accent text-primary px-8 py-4 rounded-xl font-black uppercase tracking-wider hover:bg-darkAccent transition inline-block">Agendar agora</a>
+                    </div>
+                </div>
+            </header>
+
+            <section id="contact" class="py-24 px-6 bg-slate-900">
+                <div class="container mx-auto max-w-4xl">
+                    <div class="bg-primary p-10 rounded-[2.5rem] border border-accent/10 shadow-2xl">
+                        <h2 class="text-3xl font-bold mb-8 text-center text-accent">Novo Agendamento</h2>
+                        
+                        <form id="appointmentForm" class="space-y-6 text-left">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-complementary mb-2">Seu Nome (Tutor)</label>
+                                    <input type="text" id="nome" placeholder="Seu nome completo" required class="w-full bg-slate-800 border border-white/10 p-4 rounded-xl focus:border-accent outline-none text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-complementary mb-2">WhatsApp</label>
+                                    <input type="tel" id="whatsapp" placeholder="(11) 99999-9999" required class="w-full bg-slate-800 border border-white/10 p-4 rounded-xl focus:border-accent outline-none text-white">
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-complementary mb-2">Nome do Pet</label>
+                                    <input type="text" id="nomePet" placeholder="Nome do animal" required class="w-full bg-slate-800 border border-white/10 p-4 rounded-xl focus:border-accent outline-none text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-complementary mb-2">Serviço Desejado</label>
+                                    <select id="select-servicos" required class="w-full bg-slate-800 border border-white/10 p-4 rounded-xl focus:border-accent outline-none text-white">
+                                        <option value="">Carregando serviços...</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-complementary mb-2">Data e Hora</label>
+                                <input type="text" id="data_agendamento" placeholder="Escolha o melhor horário" required class="w-full bg-slate-800 border border-white/10 p-4 rounded-xl focus:border-accent outline-none text-white">
+                            </div>
+
+                            <button type="submit" id="btnSubmit" class="w-full bg-accent text-primary font-black py-5 rounded-xl text-lg hover:scale-[1.02] transition uppercase tracking-widest">Confirmar Agendamento</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="page-login" class="app-page hidden flex items-center justify-center bg-slate-950 px-6">
+            <div class="bg-primary p-10 rounded-3xl border border-accent/20 w-full max-w-md shadow-2xl text-center">
+                <h2 class="text-2xl font-bold mb-6">Acesso Administrativo</h2>
+                <form id="loginForm" class="space-y-4">
+                    <input type="password" id="adminPass" placeholder="Senha" class="w-full bg-slate-800 border border-white/10 p-4 rounded-xl text-center outline-none">
+                    <button class="w-full bg-accent text-primary font-bold py-4 rounded-xl">Entrar</button>
+                </form>
+                <button onclick="Router.go('home')" class="mt-4 text-complementary underline">Voltar</button>
+            </div>
+        </div>
+
+        <div id="page-dashboard" class="app-page hidden bg-slate-950">
+            <nav class="bg-primary border-b border-accent/10 p-5 flex justify-between items-center">
+                <span class="font-bold text-accent">DASHBOARD PROFISSIONAL</span>
+                <button onclick="Router.go('home')" class="text-red-500 font-bold">Sair</button>
+            </nav>
+            <main class="p-6">
+                <div class="bg-primary rounded-xl overflow-hidden border border-white/5">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-800 text-complementary uppercase text-xs">
+                            <tr>
+                                <th class="p-4">Data/Hora</th>
+                                <th class="p-4">Pet (Tutor)</th>
+                                <th class="p-4">Serviço</th>
+                                <th class="p-4">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+      // 1. CONFIGURAÇÃO SUPABASE
+      const SB_URL = 'https://mywfygexyneumbctwhqu.supabase.co';
+      const SB_KEY = 'sb_publishable_87elvO9hISERj5i1zq9uLQ_-A7NqLZP';
+  
+      // Usamos supabaseClient consistentemente em todo o código
+      const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
+  
+      // 2. ROTEADOR
+      const Router = {
+          go(pageId) {
+              document.querySelectorAll('.app-page').forEach(p => p.classList.add('hidden'));
+              document.getElementById(`page-${pageId}`).classList.remove('hidden');
+              if(pageId === 'dashboard') Dashboard.load();
+          }
+      };
+  
+      // 3. CARREGAR SERVIÇOS DO BANCO
+      async function carregarServicos() {
+          const select = document.getElementById('select-servicos');
+          try {
+              const { data, error } = await supabaseClient.from('servicos').select('*').order('nome_servico');
+              
+              if (error) throw error;
+  
+              if (!data || data.length === 0) {
+                  select.innerHTML = '<option value="">Nenhum serviço encontrado</option>';
+                  return;
+              }
+  
+              select.innerHTML = '<option value="">Selecione um serviço</option>';
+              data.forEach(s => {
+                  select.innerHTML += `<option value="${s.id}">${s.nome_servico} - R$ ${s.preco.toFixed(2)}</option>`;
+              });
+          } catch (e) { 
+              console.error("Erro ao carregar serviços:", e);
+              select.innerHTML = '<option value="">Erro ao carregar</option>';
+          }
+      }
+  
+      // 4. LÓGICA DE AGENDAMENTO (TRANSAÇÃO TUTOR -> PET -> AGENDAMENTO)
+      document.getElementById('appointmentForm').onsubmit = async (e) => {
+          e.preventDefault();
+          const btn = document.getElementById('btnSubmit');
+          btn.disabled = true;
+          btn.innerText = "PROCESSANDO...";
+  
+          const nomeTutor = document.getElementById('nome').value;
+          const whatsapp = document.getElementById('whatsapp').value;
+          const nomePet = document.getElementById('nomePet').value;
+          const servicoId = document.getElementById('select-servicos').value;
+          const dataHora = document.getElementById('data_agendamento').value;
+  
+          try {
+              // Passo 1: Upsert Tutor (Corrigido para supabaseClient)
+              let { data: tutor } = await supabaseClient.from('tutores').select('id').eq('whatsapp', whatsapp).maybeSingle();
+              if (!tutor) {
+                  const { data: nT, error: eT } = await supabaseClient.from('tutores').insert([{ nome: nomeTutor, whatsapp }]).select().single();
+                  if (eT) throw eT;
+                  tutor = nT;
+              }
+  
+              // Passo 2: Upsert Pet (Corrigido para supabaseClient)
+              let { data: pet } = await supabaseClient.from('pets').select('id').eq('tutor_id', tutor.id).eq('nome_pet', nomePet).maybeSingle();
+              if (!pet) {
+                  const { data: nP, error: eP } = await supabaseClient.from('pets').insert([{ tutor_id: tutor.id, nome_pet: nomePet }]).select().single();
+                  if (eP) throw eP;
+                  pet = nP;
+              }
+  
+              // Passo 3: Criar Agendamento (Corrigido para supabaseClient)
+              const { error: eA } = await supabaseClient.from('agendamentos_pro').insert([{
+                  pet_id: pet.id,
+                  servico_id: servicoId,
+                  data_hora: dataHora,
+                  status: 'Pendente'
+              }]);
+              if (eA) throw eA;
+  
+              alert("Agendamento realizado com sucesso!");
+              location.reload();
+  
+          } catch (err) {
+              alert("Erro: " + err.message);
+              btn.disabled = false;
+              btn.innerText = "Confirmar Agendamento";
+          }
+      };
+  
+      // 5. DASHBOARD ADMIN (QUERY COM JOIN)
+      const Dashboard = {
+          async load() {
+              const tbody = document.getElementById('table-body');
+              tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center">Carregando...</td></tr>';
+  
+              // Corrigido para supabaseClient
+              const { data, error } = await supabaseClient
+                  .from('agendamentos_pro')
+                  .select(`
+                      data_hora, 
+                      status, 
+                      pets (nome_pet, tutores (nome, whatsapp)), 
+                      servicos (nome_servico)
+                  `)
+                  .order('data_hora');
+  
+              if (error) return console.error(error);
+  
+              tbody.innerHTML = data.map(row => `
+                  <tr class="border-b border-white/5">
+                      <td class="p-4 text-accent">${new Date(row.data_hora).toLocaleString()}</td>
+                      <td class="p-4"><b>${row.pets.nome_pet}</b><br><span class="text-xs text-complementary">${row.pets.tutores.nome}</span></td>
+                      <td class="p-4">${row.servicos ? row.servicos.nome_servico : 'Serviço removido'}</td>
+                      <td class="p-4"><span class="bg-yellow-500/20 text-yellow-500 p-1 px-2 rounded text-xs">${row.status}</span></td>
+                  </tr>
+              `).join('') || '<tr><td colspan="4" class="p-4 text-center">Nenhum agendamento encontrado.</td></tr>';
+          }
+      };
+  
+      // 6. LOGIN
+      document.getElementById('loginForm').onsubmit = (e) => {
+          e.preventDefault();
+          if(document.getElementById('adminPass').value === 'sivaldo2025') Router.go('dashboard');
+          else alert("Senha incorreta");
+      };
+  
+      // 7. INICIALIZAÇÃO
+      document.addEventListener('DOMContentLoaded', () => {
+          carregarServicos();
+          flatpickr("#data_agendamento", { 
+              enableTime: true, 
+              dateFormat: "Y-m-d H:i", 
+              minDate: "today", 
+              locale: "pt",
+              time_24hr: true 
+          });
+      });
+  </script>
+</body>
+</html>
